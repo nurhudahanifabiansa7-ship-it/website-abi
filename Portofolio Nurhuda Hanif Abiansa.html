@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nurhuda Hanif Abiansa - Portofolio Karya Video & Desain Poster</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Instagram Embed Script -->
+    <script async src="https://www.instagram.com/embed.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            capcut: '#00f2fe',
+                            canva: '#00c4cc',
+                            dark: '#080b11',
+                            card: '#111827',
+                            accent: '#6366f1'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #07090e;
+            color: #f8fafc;
+        }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 16px 35px -10px rgba(99, 102, 241, 0.2);
+        }
+        .canva-gradient-bg {
+            background: linear-gradient(135deg, #00c4cc 0%, #7d2ae8 100%);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-100 antialiased selection:bg-indigo-500 selection:text-white custom-scrollbar">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-y-[-100px] opacity-0 transition-all duration-300 flex items-center gap-3 bg-slate-900 text-teal-400 border border-teal-500/30 px-5 py-3 rounded-xl shadow-2xl">
+        <i class="fa-solid fa-circle-check text-xl"></i>
+        <span id="toast-message" class="text-sm font-medium text-slate-200">Notifikasi</span>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+
+        <!-- HEADER / HERO PORTFOLIO SECTION -->
+        <header class="glass-panel rounded-3xl p-6 sm:p-10 relative overflow-hidden shadow-2xl border border-indigo-500/10">
+            <div class="absolute -top-32 -left-32 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-32 -right-32 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                <!-- Avatar / Badge Icon -->
+                <div class="relative group">
+                    <div class="w-32 h-32 sm:w-36 sm:h-36 rounded-full overflow-hidden p-1 canva-gradient-bg shadow-2xl ring-4 ring-indigo-500/30 transform transition duration-300 group-hover:scale-105">
+                        <img id="profile-img" src="Gemini_Generated_Image_cyqevtcyqevtcyqe.jpg" alt="Nurhuda Hanif Abiansa" class="w-full h-full object-cover rounded-full bg-slate-900" onerror="this.src='https://placehold.co/400x400/1e293b/ffffff?text=Nurhuda+Hanif'">
+                    </div>
+                    <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 px-3 py-1 rounded-full text-[11px] font-bold text-teal-400 flex items-center gap-1.5 shadow-lg whitespace-nowrap">
+                        <span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span> Open to Work
+                    </span>
+                </div>
+
+                <!-- Bio & Title Info -->
+                <div class="flex-1 text-center md:text-left space-y-3">
+                    <div class="flex flex-wrap items-center justify-center md:justify-start gap-3">
+                        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Nurhuda Hanif Abiansa</h1>
+                        <span class="px-3 py-1 text-xs font-semibold uppercase tracking-wider text-indigo-300 bg-indigo-500/10 border border-indigo-500/20 rounded-full">Portofolio Pelamar Kerja</span>
+                    </div>
+                    
+                    <p class="text-indigo-400 font-semibold text-lg sm:text-xl">Video Editor & Canva Editor</p>
+                    
+                    <p class="text-slate-300 text-sm sm:text-base max-w-3xl leading-relaxed whitespace-pre-line">
+Hai, saya Nurhuda Hanif Abiansa!
+Inilah beberapa Portofolio saya dari video reels dan poster—dari video Reels Edit via CapCut, sampai desain poster Canva.
+👇 Jelajahi portofolio saya di bawah ini!
+                    </p>
+
+                    <!-- Header Utility Actions -->
+                    <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-3">
+                        <button onclick="copyPortfolioLink()" class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-slate-200 hover:text-white bg-slate-800/90 hover:bg-slate-700 border border-slate-700 rounded-xl transition shadow-lg">
+                            <i class="fa-regular fa-copy text-indigo-400"></i>
+                            Bagikan Link Portofolio
+                        </button>
+
+                        <button onclick="openAddModal()" class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-indigo-300 hover:text-white bg-indigo-500/10 hover:bg-indigo-500/20 border border-indigo-500/30 rounded-xl transition">
+                            <i class="fa-solid fa-plus text-indigo-400"></i>
+                            Tambah Karya Baru
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- STATS SUMMARY COUNTER -->
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div class="glass-panel p-4 rounded-2xl text-center border-l-4 border-teal-500">
+                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Hasil Karya</p>
+                <p class="text-2xl font-black text-teal-400 mt-1" id="stat-total">13</p>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl text-center border-l-4 border-cyan-400">
+                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Editing Video (CapCut)</p>
+                <p class="text-2xl font-black text-cyan-400 mt-1" id="stat-capcut">9</p>
+            </div>
+            <div class="glass-panel p-4 rounded-2xl text-center border-l-4 border-purple-500">
+                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Editing Poster (Canva)</p>
+                <p class="text-2xl font-black text-purple-400 mt-1" id="stat-canva">4</p>
+            </div>
+        </div>
+
+        <!-- SEARCH BAR -->
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 glass-panel p-4 rounded-2xl">
+            <div class="flex items-center gap-3 text-slate-300">
+                <i class="fa-solid fa-layer-group text-indigo-400 text-lg"></i>
+                <span class="text-sm font-bold tracking-wide">Daftar Ruang Proyek Portofolio</span>
+            </div>
+
+            <!-- Search Field -->
+            <div class="relative w-full md:w-80">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                <input type="text" id="search-input" onkeyup="filterPortfolio()" placeholder="Cari karya atau hashtag..." class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl pl-10 pr-4 py-2 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition">
+            </div>
+        </div>
+
+        <main class="space-y-12">
+            
+            <!-- RUANG 1: EDITING VIDEO VIA CAPCUT -->
+            <section id="room-capcut" class="space-y-6">
+                <!-- Room Header Title -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-cyan-400 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                            <i class="fa-solid fa-video text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                                Ruang Project Video Edit (CapCut)
+                            </h2>
+                            <p class="text-xs text-slate-400">Kumpulan 9 hasil editan video Reels Instagram & Google Drive Master File</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 rounded-full text-xs font-bold" id="badge-count-capcut">9 Project</span>
+                </div>
+
+                <!-- CapCut Grid -->
+                <div id="grid-capcut" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Video Cards Rendered Here -->
+                </div>
+            </section>
+
+            <!-- TITIK 3 PEMISAH RUANGAN (THREE-DOTS ROOM DIVIDER) -->
+            <div class="flex items-center justify-center my-10 py-4 select-none" text-center>
+                <div class="glass-panel px-8 py-3 rounded-full flex items-center gap-4 border border-indigo-500/20 shadow-xl">
+                    <span class="w-3.5 h-3.5 rounded-full bg-cyan-400 animate-pulse shadow-lg shadow-cyan-500/50"></span>
+                    <span class="w-4 h-4 rounded-full bg-indigo-500 animate-pulse delay-150 shadow-lg shadow-indigo-500/50"></span>
+                    <span class="w-3.5 h-3.5 rounded-full bg-purple-400 animate-pulse delay-300 shadow-lg shadow-purple-500/50"></span>
+                </div>
+            </div>
+
+            <!-- RUANG 2: EDITING POSTER VIA CANVA -->
+            <section id="room-canva" class="space-y-6">
+                <!-- Room Header Title -->
+                <div class="glass-panel p-5 rounded-2xl border-l-4 border-purple-500 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                            <i class="fa-solid fa-image text-lg"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-extrabold text-white flex items-center gap-2">
+                                Ruang Project Desain Poster (Canva)
+                            </h2>
+                            <p class="text-xs text-slate-400">Kumpulan 4 hasil karya desain visual & poster graphic</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-purple-500/10 text-purple-400 border border-purple-500/30 rounded-full text-xs font-bold" id="badge-count-canva">4 Project</span>
+                </div>
+
+                <!-- Canva Grid -->
+                <div id="grid-canva" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Dynamic Poster Cards Rendered Here -->
+                </div>
+            </section>
+
+            <!-- Empty Search State -->
+            <div id="empty-state" class="hidden text-center py-16 glass-panel rounded-3xl space-y-3">
+                <div class="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto text-slate-500">
+                    <i class="fa-solid fa-folder-open text-2xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-300">Tidak ada karya yang sesuai pencarian</h3>
+                <p class="text-sm text-slate-500 max-w-sm mx-auto">Coba cari dengan kata kunci lain seperti CapCut, Canva, atau Poster.</p>
+            </div>
+        </main>
+
+        <!-- FOOTER & CONTACT RECRUITER -->
+        <section class="glass-panel rounded-3xl p-8 text-center relative overflow-hidden">
+            <div class="max-w-2xl mx-auto space-y-4">
+                <span class="inline-block px-3 py-1 bg-teal-500/10 border border-teal-500/30 text-teal-300 rounded-full text-xs font-semibold tracking-wider uppercase">Hubungi Saya untuk Rekrutmen</span>
+                <h2 class="text-2xl font-extrabold text-white">Tertarik Memakai Jasa / Mempekerjakan Saya?</h2>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Saya siap berkontribusi sebagai Video Editor maupun Canva Editor untuk perusahaan atau proyek Anda. Hubungi langsung melalui kontak berikut:
+                </p>
+                <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                    <a href="https://wa.me/6282230306694" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition shadow-xl shadow-emerald-950/50">
+                        <i class="fa-brands fa-whatsapp text-xl"></i> WhatsApp: +62 822-3030-6694
+                    </a>
+                    <a href="https://www.instagram.com/abbiannn___" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:opacity-90 text-white font-bold text-sm rounded-xl transition shadow-xl shadow-pink-950/50">
+                        <i class="fa-brands fa-instagram text-xl"></i> Instagram @abbiannn___
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-4 text-xs text-slate-500">
+            <p>© <span id="year"></span> Nurhuda Hanif Abiansa. Portofolio Karya Editing Video (CapCut) & Poster (Canva).</p>
+        </footer>
+
+    </div>
+
+    <!-- PREVIEW MODAL (EMBED MODAL) -->
+    <div id="preview-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel bg-slate-900 border-slate-700 w-full max-w-2xl rounded-3xl p-5 space-y-4 shadow-2xl relative transform scale-95 transition-transform duration-300" id="preview-box">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-base font-bold text-white flex items-center gap-2" id="preview-modal-title">
+                    <i class="fa-solid fa-circle-play text-indigo-400"></i>
+                    Preview Karya
+                </h3>
+                <button onclick="closePreviewModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div id="embed-container" class="flex justify-center items-center min-h-[350px] max-h-[70vh] overflow-y-auto custom-scrollbar p-2 bg-slate-950/60 rounded-2xl">
+                <!-- Dynamic Iframe or IG Embed HTML -->
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-800">
+                <span id="preview-category-badge" class="px-3 py-1 bg-slate-800 text-xs font-semibold rounded-lg text-indigo-300">Kategori</span>
+                <a id="preview-external-link" href="#" target="_blank" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center gap-2">
+                    Buka Link Asli <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD PORTFOLIO MODAL -->
+    <div id="add-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md hidden opacity-0 transition-opacity duration-300">
+        <div class="glass-panel bg-slate-900 border-slate-700 w-full max-w-lg rounded-3xl p-6 space-y-4 shadow-2xl relative transform scale-95 transition-transform duration-300" id="modal-box">
+            
+            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-teal-400"></i>
+                    Tambah Link Hasil Karya Baru
+                </h3>
+                <button onclick="closeAddModal()" class="text-slate-400 hover:text-white p-1 rounded-lg transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <form id="add-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Judul Karya / Deskripsi Singkat</label>
+                    <input type="text" id="input-title" required placeholder="Contoh: Editing Video Reels Short Drama CapCut" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">URL Link (Instagram Reel/Post atau Google Drive)</label>
+                    <input type="url" id="input-url" required placeholder="https://www.instagram.com/reel/..." class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Kategori Karya</label>
+                    <select id="input-category" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
+                        <option value="Editing video via CapCut">Editing video via CapCut</option>
+                        <option value="Editing poster via Canva">Editing poster via Canva</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Tags (Pisahkan dengan koma)</label>
+                    <input type="text" id="input-tags" placeholder="CapCut, Reels, Transition, Canva, Poster" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-teal-500">
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+                    <button type="button" onclick="closeAddModal()" class="px-5 py-2.5 rounded-xl border border-slate-700 text-slate-300 text-sm font-medium hover:bg-slate-800">Batal</button>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-teal-500 hover:bg-teal-600 text-slate-950 text-sm font-bold shadow-lg">Simpan Karya</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC & DATA -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // DATA LIST PROVIDED BY USER
+        const rawPortfolioData = [
+            // Category 1: Editing video via CapCut (9 items)
+            {
+                id: 1,
+                title: "Editing Video via CapCut - Reel #1",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DZaa3KWJI-m/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "VideoEditing", "Transitions"]
+            },
+            {
+                id: 2,
+                title: "Editing Video via CapCut - Reel #2",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DYHKtJgBwtd/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "VideoEditing", "ColorGrading"]
+            },
+            {
+                id: 3,
+                title: "Editing Video via CapCut - Reel #3",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DY92fwgsojw/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "CreativeVideo"]
+            },
+            {
+                id: 4,
+                title: "Editing Video via CapCut - Reel #4",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DaShT7FBYlq/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "ShortForm", "Reels"]
+            },
+            {
+                id: 5,
+                title: "Editing Video via CapCut - Reel #5",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DZ-bhCrBGpa/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "TrendingAudio", "Effects"]
+            },
+            {
+                id: 6,
+                title: "Editing Video via CapCut - Reel #6",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DY0BaISBfE2/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "DynamicEdit"]
+            },
+            {
+                id: 7,
+                title: "Editing Video via CapCut - Reel #7",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DK1fG0YTN2U/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "ContentCreator"]
+            },
+            {
+                id: 8,
+                title: "Editing Video via CapCut - Reel #8",
+                category: "Editing video via CapCut",
+                type: "instagram-reel",
+                url: "https://www.instagram.com/reel/DKrNvORz1mW/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["CapCut", "Reels", "VisualEffects"]
+            },
+            {
+                id: 9,
+                title: "Editing Video via CapCut - Drive Master File",
+                category: "Editing video via CapCut",
+                type: "gdrive-video",
+                url: "https://drive.google.com/file/d/1WL-DHun1-FH0QO6fHGxgFPnnaFNxnHrG/view?usp=sharing",
+                tags: ["CapCut", "GoogleDrive", "HDVideo", "ProjectFile"]
+            },
+
+            // Category 2: Editing poster via Canva (4 items)
+            {
+                id: 10,
+                title: "Editing Poster via Canva - Post #1",
+                category: "Editing poster via Canva",
+                type: "instagram-post",
+                url: "https://www.instagram.com/p/DNblammz4u8/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["Canva", "Poster", "Design", "GraphicDesign"]
+            },
+            {
+                id: 11,
+                title: "Editing Poster via Canva - Post #2",
+                category: "Editing poster via Canva",
+                type: "instagram-post",
+                url: "https://www.instagram.com/p/DLX5lWdTCFV/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["Canva", "Poster", "Branding"]
+            },
+            {
+                id: 12,
+                title: "Editing Poster via Canva - Post #3",
+                category: "Editing poster via Canva",
+                type: "instagram-post",
+                url: "https://www.instagram.com/p/DKimN1WzR85/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["Canva", "Poster", "SocialMediaGraphic"]
+            },
+            {
+                id: 13,
+                title: "Editing Poster via Canva - Post #4",
+                category: "Editing poster via Canva",
+                type: "instagram-post",
+                url: "https://www.instagram.com/p/DYz_Ez7kyKY/?utm_source=ig_web_copy_link&stkn=MzRlODBiNWFlZA==",
+                tags: ["Canva", "Poster", "VisualDesign"]
+            }
+        ];
+
+        // State & LocalStorage initialization
+        let portfolioItems = JSON.parse(localStorage.getItem('my_job_portfolio_v3')) || rawPortfolioData;
+
+        // Initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPortfolio();
+            updateStats();
+        });
+
+        function renderPortfolio() {
+            const gridCapcut = document.getElementById('grid-capcut');
+            const gridCanva = document.getElementById('grid-canva');
+            const roomCapcut = document.getElementById('room-capcut');
+            const roomCanva = document.getElementById('room-canva');
+            const emptyState = document.getElementById('empty-state');
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+
+            // Filter items based on search query
+            const filteredCapcut = portfolioItems.filter(item => 
+                item.category === "Editing video via CapCut" &&
+                (item.title.toLowerCase().includes(searchQuery) || item.tags.some(tag => tag.toLowerCase().includes(searchQuery)))
+            );
+
+            const filteredCanva = portfolioItems.filter(item => 
+                item.category === "Editing poster via Canva" &&
+                (item.title.toLowerCase().includes(searchQuery) || item.tags.some(tag => tag.toLowerCase().includes(searchQuery)))
+            );
+
+            // Hide/Show Empty State
+            if (filteredCapcut.length === 0 && filteredCanva.length === 0) {
+                roomCapcut.classList.add('hidden');
+                roomCanva.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                roomCapcut.classList.remove('hidden');
+                roomCanva.classList.remove('hidden');
+            }
+
+            // Render Ruang CapCut Video
+            gridCapcut.innerHTML = generateCardListHtml(filteredCapcut);
+            document.getElementById('badge-count-capcut').textContent = `${filteredCapcut.length} Project`;
+
+            // Render Ruang Canva Poster
+            gridCanva.innerHTML = generateCardListHtml(filteredCanva);
+            document.getElementById('badge-count-canva').textContent = `${filteredCanva.length} Project`;
+        }
+
+        function generateCardListHtml(items) {
+            if (items.length === 0) {
+                return `<div class="col-span-full py-8 text-center text-slate-500 text-sm">Tidak ada project yang cocok di ruangan ini.</div>`;
+            }
+
+            return items.map(item => {
+                const isCapcut = item.category.includes("CapCut");
+                const isGDrive = item.url.includes("drive.google.com");
+
+                const badgeBg = isCapcut 
+                    ? 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30' 
+                    : 'bg-purple-500/10 text-purple-400 border-purple-500/30';
+
+                const iconClass = isGDrive 
+                    ? 'fa-brands fa-google-drive text-amber-400' 
+                    : (isCapcut ? 'fa-solid fa-video text-cyan-400' : 'fa-solid fa-image text-purple-400');
+
+                const cardImageSrc = isCapcut 
+                    ? (isGDrive ? 'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=600&q=80' : 'https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?auto=format&fit=crop&w=600&q=80')
+                    : 'https://images.unsplash.com/photo-1626785774573-4b799315345d?auto=format&fit=crop&w=600&q=80';
+
+                return `
+                    <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between group">
+                        <div>
+                            <!-- Header Image Container -->
+                            <div class="relative h-44 overflow-hidden bg-slate-900 flex items-center justify-center">
+                                <img src="${cardImageSrc}" alt="${item.title}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110 opacity-60 group-hover:opacity-80">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
+                                
+                                <!-- Category Badge -->
+                                <span class="absolute top-3 left-3 px-3 py-1 border text-[11px] font-bold rounded-full backdrop-blur-md ${badgeBg}">
+                                    <i class="${iconClass} mr-1"></i> ${item.category}
+                                </span>
+
+                                <!-- Delete item button -->
+                                <button onclick="deleteItem(${item.id})" class="absolute top-3 right-3 w-8 h-8 bg-slate-950/70 hover:bg-red-500/80 text-slate-400 hover:text-white rounded-full flex items-center justify-center transition backdrop-blur-md" title="Hapus Karya Ini">
+                                    <i class="fa-solid fa-trash-can text-xs"></i>
+                                </button>
+
+                                <!-- Play / View Center Overlay Button -->
+                                <button onclick="openPreviewModal('${encodeURIComponent(JSON.stringify(item))}')" class="absolute inset-0 flex items-center justify-center group-hover:scale-110 transition duration-300">
+                                    <div class="w-14 h-14 rounded-full bg-indigo-600/90 text-white flex items-center justify-center shadow-xl backdrop-blur-sm group-hover:bg-indigo-500">
+                                        <i class="${isCapcut ? 'fa-solid fa-play text-lg ml-1' : 'fa-solid fa-eye text-lg'}"></i>
+                                    </div>
+                                </button>
+                            </div>
+
+                            <!-- Card Body -->
+                            <div class="p-5 space-y-3">
+                                <h3 class="font-bold text-base text-white group-hover:text-indigo-300 transition line-clamp-2">${item.title}</h3>
+                                
+                                <div class="flex flex-wrap gap-1.5 pt-1">
+                                    ${(item.tags || []).map(t => `<span class="text-[10px] font-medium text-slate-400 bg-slate-800/90 px-2 py-0.5 rounded-md">#${t}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Action Buttons -->
+                        <div class="p-5 pt-0 grid grid-cols-2 gap-2">
+                            <button onclick="openPreviewModal('${encodeURIComponent(JSON.stringify(item))}')" class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 border border-indigo-500/30 rounded-xl text-xs font-semibold transition">
+                                <i class="fa-solid fa-expand text-xs"></i> Preview
+                            </button>
+
+                            <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl text-xs font-semibold transition">
+                                <i class="${isGDrive ? 'fa-brands fa-google-drive text-amber-400' : 'fa-brands fa-instagram text-pink-500'}"></i> Buka Link
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openPreviewModal(encodedItem) {
+            const item = JSON.parse(decodeURIComponent(encodedItem));
+            const modal = document.getElementById('preview-modal');
+            const box = document.getElementById('preview-box');
+            const container = document.getElementById('embed-container');
+            const titleEl = document.getElementById('preview-modal-title');
+            const badgeEl = document.getElementById('preview-category-badge');
+            const linkEl = document.getElementById('preview-external-link');
+
+            titleEl.innerHTML = `<i class="fa-solid fa-circle-play text-indigo-400"></i> ${item.title}`;
+            badgeEl.textContent = item.category;
+            linkEl.href = item.url;
+
+            // Generate Embed Content based on URL type
+            if (item.url.includes("drive.google.com")) {
+                const embedUrl = item.url.replace('/view?usp=sharing', '/preview').replace('/view', '/preview');
+                container.innerHTML = `
+                    <iframe src="${embedUrl}" class="w-full h-[400px] rounded-xl border border-slate-800" allow="autoplay"></iframe>
+                `;
+            } else if (item.url.includes("instagram.com")) {
+                const cleanUrl = item.url.split('?')[0];
+                container.innerHTML = `
+                    <blockquote class="instagram-media" data-instgrm-permalink="${cleanUrl}" data-instgrm-version="14" style=" background:#080b11; border:0; border-radius:12px; max-width:540px; min-width:280px; width:100%; margin: 0 auto;">
+                        <a href="${cleanUrl}" target="_blank" class="text-indigo-400 underline text-xs">Memuat Post/Reel Instagram...</a>
+                    </blockquote>
+                `;
+                if (window.instgrm) {
+                    window.instgrm.Embeds.process();
+                }
+            } else {
+                container.innerHTML = `<p class="text-slate-400 text-sm">Preview tidak dapat dimuat secara langsung. Silakan klik "Buka Link Asli".</p>`;
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                box.classList.remove('scale-95');
+                box.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closePreviewModal() {
+            const modal = document.getElementById('preview-modal');
+            const box = document.getElementById('preview-box');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('embed-container').innerHTML = '';
+            }, 300);
+        }
+
+        function updateStats() {
+            document.getElementById('stat-total').textContent = portfolioItems.length;
+            document.getElementById('stat-capcut').textContent = portfolioItems.filter(i => i.category === 'Editing video via CapCut').length;
+            document.getElementById('stat-canva').textContent = portfolioItems.filter(i => i.category === 'Editing poster via Canva').length;
+        }
+
+        function filterPortfolio() {
+            renderPortfolio();
+        }
+
+        // Add Modal functions
+        function openAddModal() {
+            const modal = document.getElementById('add-modal');
+            const box = document.getElementById('modal-box');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                box.classList.remove('scale-95');
+                box.classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeAddModal() {
+            const modal = document.getElementById('add-modal');
+            const box = document.getElementById('modal-box');
+            box.classList.remove('scale-100');
+            box.classList.add('scale-95');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                document.getElementById('add-form').reset();
+            }, 300);
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('input-title').value;
+            const url = document.getElementById('input-url').value;
+            const category = document.getElementById('input-category').value;
+            const tagsRaw = document.getElementById('input-tags').value;
+
+            const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()) : [category.includes('CapCut') ? 'CapCut' : 'Canva'];
+
+            const newItem = {
+                id: Date.now(),
+                title,
+                category,
+                url,
+                tags
+            };
+
+            portfolioItems.unshift(newItem);
+            localStorage.setItem('my_job_portfolio_v3', JSON.stringify(portfolioItems));
+            
+            renderPortfolio();
+            updateStats();
+            closeAddModal();
+            showToast("Berhasil menambahkan karya baru!");
+        }
+
+        function deleteItem(id) {
+            portfolioItems = portfolioItems.filter(item => item.id !== id);
+            localStorage.setItem('my_job_portfolio_v3', JSON.stringify(portfolioItems));
+            renderPortfolio();
+            updateStats();
+            showToast("Karya berhasil dihapus");
+        }
+
+        function copyPortfolioLink() {
+            const currentUrl = window.location.href;
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = currentUrl;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            showToast("Link portofolio berhasil disalin!");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.textContent = message;
+
+            toast.classList.remove('translate-y-[-100px]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-100px]', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
