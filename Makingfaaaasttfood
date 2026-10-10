@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Making Faaasssttt Food - Layanan Pesan Makanan Kilat Purwokerto</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                        },
+                        fastYellow: '#FFB800',
+                        fastOrange: '#FF5722',
+                        purwoDark: '#1E2229'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+        
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .badge-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.05); }
+        }
+
+        .speed-lines {
+            background: repeating-linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0.15),
+                rgba(255, 255, 255, 0.15) 10px,
+                transparent 10px,
+                transparent 20px
+            );
+        }
+    </style>
+</head>
+<body class="text-slate-800 pb-20 md:pb-6">
+
+    <!-- Top Header Navigation -->
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-2 md:gap-4">
+                
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-2 cursor-pointer" onclick="resetFilters()">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-fastOrange to-fastYellow flex items-center justify-center text-white font-extrabold text-xl shadow-md shadow-orange-500/30 transform -rotate-3 hover:rotate-0 transition">
+                        <i class="fa-solid fa-bolt-lightning animate-bounce"></i>
+                    </div>
+                    <div>
+                        <span class="text-lg md:text-xl font-black italic tracking-tight bg-gradient-to-r from-fastOrange via-red-600 to-amber-500 bg-clip-text text-transparent">
+                            Making Faaasssttt
+                        </span>
+                        <span class="block -mt-1 text-[10px] font-extrabold uppercase tracking-widest text-slate-500">
+                            Food Purwokerto
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Location Picker -->
+                <div class="hidden md:flex items-center bg-slate-100 hover:bg-slate-200/80 px-3 py-1.5 rounded-full text-xs font-semibold text-slate-700 transition cursor-pointer" onclick="openLocationModal()">
+                    <i class="fa-solid fa-location-dot text-fastOrange mr-2 text-sm"></i>
+                    <span class="text-slate-500 mr-1">Antar ke:</span>
+                    <span id="selected-location-text" class="text-slate-900 font-bold truncate max-w-[150px]">Kampus UNSOED, PWT</span>
+                    <i class="fa-solid fa-chevron-down ml-2 text-slate-400 text-[10px]"></i>
+                </div>
+
+                <!-- Fast Delivery Badge -->
+                <div class="hidden lg:flex items-center bg-amber-50 border border-amber-200 text-amber-800 px-3 py-1.5 rounded-full text-xs font-bold gap-2">
+                    <span class="relative flex h-2 w-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
+                    </span>
+                    <span>⚡ Kilat Delivery ~15-25 Mins di Purwokerto</span>
+                </div>
+
+                <!-- Action Right: Favorites & Cart Floating Mobile Trigger -->
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleFavoritesView()" class="relative p-2 text-slate-600 hover:text-fastOrange hover:bg-slate-100 rounded-full transition">
+                        <i class="fa-solid fa-heart text-lg"></i>
+                        <span id="fav-count" class="hidden absolute top-0 right-0 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full items-center justify-center">0</span>
+                    </button>
+
+                    <button onclick="toggleCartDrawer()" class="relative bg-gradient-to-r from-fastOrange to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg shadow-orange-500/25 flex items-center gap-2 transition active:scale-95">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <span class="hidden sm:inline">Keranjang</span>
+                        <span id="cart-badge" class="bg-white text-fastOrange font-black text-xs px-2 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Location Selector Bar -->
+            <div class="flex md:hidden items-center justify-between py-2 border-t border-slate-100 text-xs">
+                <div class="flex items-center text-slate-700 cursor-pointer truncate" onclick="openLocationModal()">
+                    <i class="fa-solid fa-location-dot text-fastOrange mr-1.5"></i>
+                    <span class="text-slate-500 mr-1">Ke:</span>
+                    <span id="mobile-selected-location" class="font-bold text-slate-900 truncate">Kampus UNSOED, PWT</span>
+                    <i class="fa-solid fa-chevron-down ml-1 text-slate-400 text-[10px]"></i>
+                </div>
+                <div class="text-[11px] text-amber-700 font-bold bg-amber-100/80 px-2 py-0.5 rounded-full shrink-0">
+                    ⚡ ~15-25 min
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner & Search Section -->
+    <section class="bg-gradient-to-br from-purwoDark via-slate-900 to-slate-800 text-white py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="absolute inset-0 opacity-10 speed-lines"></div>
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="max-w-2xl">
+                <div class="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1 rounded-full text-xs font-medium text-amber-300 mb-3 border border-white/10">
+                    <i class="fa-solid fa-fire text-fastYellow"></i> Khusus Wilayah Purwokerto & Sekitarnya
+                </div>
+                <h1 class="text-2xl sm:text-4xl font-black tracking-tight leading-tight">
+                    Lapar Melanda? <br class="hidden sm:inline"/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-fastYellow via-amber-400 to-fastOrange">
+                        Makannn Faaasssttt Sampai Tempatmu!
+                    </span>
+                </h1>
+                <p class="mt-2 text-slate-300 text-sm sm:text-base">
+                    Nikmati Soto Sokaraja, Mendoan Kriuk UNSOED, hingga Ayam Raden Patah dengan garansi pengiriman super cepat.
+                </p>
+
+                <!-- Search Input Bar -->
+                <div class="mt-6 flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+                        <input type="text" id="search-input" onkeyup="handleSearch()" placeholder="Cari Mendoan, Soto Sokaraja, Ayam Geprek, Kopi..." 
+                               class="w-full pl-11 pr-4 py-3 bg-white text-slate-900 rounded-xl sm:rounded-2xl shadow-lg focus:outline-none focus:ring-2 focus:ring-fastOrange font-medium text-sm">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Promo Carousel / Banners -->
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div onclick="applyVoucherDirect('PURWOKERTOFAST')" class="cursor-pointer bg-gradient-to-r from-fastOrange to-red-600 rounded-2xl p-4 text-white shadow-lg relative overflow-hidden group hover:scale-[1.02] transition">
+                    <div class="relative z-10">
+                        <span class="bg-black/30 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Promo Khusus</span>
+                        <h3 class="font-extrabold text-lg mt-1">Gratis Ongkir UNSOED</h3>
+                        <p class="text-xs text-orange-100">Gunakan kode: <span class="font-mono bg-white/20 px-1.5 py-0.5 rounded font-bold">PURWOKERTOFAST</span></p>
+                    </div>
+                    <i class="fa-solid fa-motorcycle absolute -right-2 -bottom-2 text-6xl text-white/10 group-hover:scale-110 transition"></i>
+                </div>
+
+                <div onclick="applyVoucherDirect('MENDOANFREE')" class="cursor-pointer bg-gradient-to-r from-amber-500 to-emerald-600 rounded-2xl p-4 text-white shadow-lg relative overflow-hidden group hover:scale-[1.02] transition">
+                    <div class="relative z-10">
+                        <span class="bg-black/30 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Diskon Mendoan</span>
+                        <h3 class="font-extrabold text-lg mt-1">Potongan Rp 10.000</h3>
+                        <p class="text-xs text-amber-100">Gunakan kode: <span class="font-mono bg-white/20 px-1.5 py-0.5 rounded font-bold">MENDOANFREE</span></p>
+                    </div>
+                    <i class="fa-solid fa-utensils absolute -right-2 -bottom-2 text-6xl text-white/10 group-hover:scale-110 transition"></i>
+                </div>
+
+                <div class="hidden md:block bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-4 text-white shadow-lg relative overflow-hidden">
+                    <div class="relative z-10">
+                        <span class="bg-black/30 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">Jaminan Kilat</span>
+                        <h3 class="font-extrabold text-lg mt-1">Nyampe &lt; 25 Menit</h3>
+                        <p class="text-xs text-indigo-100">Driver area Purwokerto siap meluncur!</p>
+                    </div>
+                    <i class="fa-solid fa-bolt absolute -right-2 -bottom-2 text-6xl text-white/10"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Scrollable Bar -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="flex items-center justify-between mb-3">
+            <h2 class="text-lg font-black text-slate-900 tracking-tight">Kategori Makanan</h2>
+            <button onclick="resetFilters()" class="text-xs font-bold text-fastOrange hover:underline">Lihat Semua</button>
+        </div>
+
+        <div id="category-container" class="flex gap-3 overflow-x-auto hide-scrollbar pb-2 pt-1">
+            <!-- Categories will be rendered here dynamically -->
+        </div>
+    </section>
+
+    <!-- Filter Quick Pills -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+        <div class="flex items-center gap-2 overflow-x-auto hide-scrollbar py-1">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1">Filter:</span>
+            
+            <button onclick="toggleFilter('promo')" id="filter-promo" class="filter-pill bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:border-fastOrange transition flex items-center gap-1.5 shrink-0">
+                <i class="fa-solid fa-tags text-fastOrange"></i> Promo Super Fast
+            </button>
+
+            <button onclick="toggleFilter('rating')" id="filter-rating" class="filter-pill bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:border-fastOrange transition flex items-center gap-1.5 shrink-0">
+                <i class="fa-solid fa-star text-amber-400"></i> Rating 4.5+
+            </button>
+
+            <button onclick="toggleFilter('fast')" id="filter-fast" class="filter-pill bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:border-fastOrange transition flex items-center gap-1.5 shrink-0">
+                <i class="fa-solid fa-bolt text-fastYellow"></i> Under 20 Menit
+            </button>
+
+            <button onclick="toggleFilter('halal')" id="filter-halal" class="filter-pill bg-white border border-slate-200 text-slate-700 text-xs font-semibold px-3 py-1.5 rounded-full hover:border-fastOrange transition flex items-center gap-1.5 shrink-0">
+                <i class="fa-solid fa-check-circle text-emerald-500"></i> Halal Verified
+            </button>
+        </div>
+    </section>
+
+    <!-- Restaurant Listings Section -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h2 id="section-title" class="text-xl font-extrabold text-slate-900">Restoran Terpopuler di Purwokerto</h2>
+                <p id="section-subtitle" class="text-xs text-slate-500">Mulai dari kuliner lokal hingga resto favorit kampus</p>
+            </div>
+            <span id="restaurant-count" class="text-xs font-bold bg-slate-200 text-slate-700 px-2.5 py-1 rounded-full">0 Resto</span>
+        </div>
+
+        <!-- Grid Resto -->
+        <div id="restaurant-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Restaurant Cards will be rendered dynamically -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-12">
+            <div class="w-20 h-20 bg-orange-100 text-fastOrange rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800">Tidak ada restoran ditemukan</h3>
+            <p class="text-slate-500 text-sm mt-1">Coba ubah kata kunci pencarian atau filter Anda.</p>
+            <button onclick="resetFilters()" class="mt-4 bg-fastOrange text-white font-bold text-xs px-4 py-2 rounded-xl shadow">Reset Semua Filter</button>
+        </div>
+    </main>
+
+    <!-- Restaurant Detail & Menu Modal -->
+    <div id="resto-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-end sm:items-center justify-center hidden opacity-0 transition-opacity duration-200">
+        <div class="bg-white w-full max-w-3xl max-h-[90vh] rounded-t-3xl sm:rounded-2xl overflow-hidden flex flex-col shadow-2xl transform transition-transform duration-300 translate-y-full sm:translate-y-0">
+            
+            <!-- Modal Header / Banner -->
+            <div class="relative h-44 sm:h-52 bg-slate-800 shrink-0">
+                <img id="modal-resto-img" src="" alt="" class="w-full h-full object-cover opacity-80">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+                <button onclick="closeRestoModal()" class="absolute top-4 right-4 bg-black/50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/80 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span id="modal-resto-category" class="bg-fastOrange text-[10px] font-extrabold uppercase px-2 py-0.5 rounded text-white tracking-wider">Kategori</span>
+                    <h2 id="modal-resto-name" class="text-xl sm:text-2xl font-black mt-1">Nama Resto</h2>
+                    <div class="flex items-center text-xs text-slate-200 gap-3 mt-1">
+                        <span><i class="fa-solid fa-star text-amber-400"></i> <span id="modal-resto-rating">4.8</span></span>
+                        <span>•</span>
+                        <span><i class="fa-solid fa-location-dot text-fastOrange"></i> <span id="modal-resto-distance">1.2 km</span></span>
+                        <span>•</span>
+                        <span><i class="fa-solid fa-clock text-amber-300"></i> <span id="modal-resto-time">15 min</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu List -->
+            <div class="p-4 sm:p-6 overflow-y-auto flex-1 space-y-4" id="modal-menu-container">
+                <!-- Dynamic Menu Items -->
+            </div>
+
+            <!-- Footer Modal Cart Trigger -->
+            <div class="p-4 bg-slate-50 border-t border-slate-200 flex items-center justify-between shrink-0">
+                <div>
+                    <span class="text-xs text-slate-500">Item Terpilih</span>
+                    <div class="font-extrabold text-slate-900 text-base" id="modal-cart-summary">0 Item | Rp 0</div>
+                </div>
+                <button onclick="closeRestoModal(); toggleCartDrawer();" class="bg-fastOrange hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl font-bold text-sm shadow-md transition">
+                    Lihat Keranjang <i class="fa-solid fa-arrow-right ml-1"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customization Options Modal (For level pedas, extras) -->
+    <div id="customize-modal" class="fixed inset-0 z-50 bg-black/70 flex items-center justify-center hidden p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl overflow-hidden shadow-2xl p-5 space-y-4">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h3 id="cust-item-name" class="font-black text-slate-900 text-lg">Nama Menu</h3>
+                    <p id="cust-item-price" class="text-fastOrange font-extrabold text-sm">Rp 0</p>
+                </div>
+                <button onclick="closeCustModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <!-- Level Pedas Option -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700 uppercase">Pilih Level Pedas:</label>
+                <div class="grid grid-cols-3 gap-2" id="spicy-options">
+                    <button type="button" onclick="selectSpicy(this, 'Tidak Pedas')" class="spicy-btn bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl p-2 text-xs font-bold text-slate-700">Tidak Pedas</button>
+                    <button type="button" onclick="selectSpicy(this, 'Pedas Sedang')" class="spicy-btn active bg-orange-500 text-white border border-orange-500 rounded-xl p-2 text-xs font-bold">Sedang 🌶️</button>
+                    <button type="button" onclick="selectSpicy(this, 'Pedas Gelora')" class="spicy-btn bg-slate-100 hover:bg-orange-50 border border-slate-200 rounded-xl p-2 text-xs font-bold text-slate-700">Extra Pedas 🌶️🌶️</button>
+                </div>
+            </div>
+
+            <!-- Add-ons Option -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700 uppercase">Tambahan Ekstra:</label>
+                <div class="space-y-1.5" id="extra-options">
+                    <label class="flex items-center justify-between p-2 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50">
+                        <span><input type="checkbox" value="5000" data-name="Extra Mendoan (2pcs)" class="extra-cb text-fastOrange rounded mr-2"> Extra Mendoan (2pcs)</span>
+                        <span class="font-bold text-slate-700">+Rp 5.000</span>
+                    </label>
+                    <label class="flex items-center justify-between p-2 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50">
+                        <span><input type="checkbox" value="3000" data-name="Sambal Kecap Extra" class="extra-cb text-fastOrange rounded mr-2"> Sambal Kecap Pedas</span>
+                        <span class="font-bold text-slate-700">+Rp 3.000</span>
+                    </label>
+                    <label class="flex items-center justify-between p-2 rounded-lg border border-slate-200 text-xs font-medium cursor-pointer hover:bg-slate-50">
+                        <span><input type="checkbox" value="4000" data-name="Es Teh Manis Purwokerto" class="extra-cb text-fastOrange rounded mr-2"> Es Teh Manis Jumbo</span>
+                        <span class="font-bold text-slate-700">+Rp 4.000</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div>
+                <label class="block text-xs font-bold text-slate-700 uppercase mb-1">Catatan Khusus:</label>
+                <input type="text" id="cust-notes" placeholder="cth: Sambal dipisah, minta goreng garing" class="w-full text-xs p-2.5 border border-slate-200 rounded-xl focus:ring-1 focus:ring-fastOrange outline-none">
+            </div>
+
+            <button onclick="confirmAddToCart()" class="w-full bg-gradient-to-r from-fastOrange to-red-600 text-white font-extrabold py-3 rounded-xl text-sm shadow-lg shadow-orange-500/30">
+                Tambahkan ke Keranjang
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Drawer Slide-over -->
+    <div id="cart-drawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-xs transition-opacity" onclick="toggleCartDrawer()"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col">
+                
+                <!-- Drawer Header -->
+                <div class="p-4 bg-slate-900 text-white flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-basket-shopping text-fastYellow text-lg"></i>
+                        <h2 class="font-extrabold text-base">Keranjang Pesanan</h2>
+                    </div>
+                    <button onclick="toggleCartDrawer()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+                </div>
+
+                <!-- Delivery Address Detail -->
+                <div class="p-3 bg-orange-50 border-b border-orange-100 text-xs flex items-center justify-between">
+                    <div class="flex items-center gap-2 text-slate-700">
+                        <i class="fa-solid fa-location-dot text-fastOrange"></i>
+                        <span class="truncate max-w-[220px]" id="cart-delivery-address">Kampus UNSOED, Purwokerto Utara</span>
+                    </div>
+                    <button onclick="openLocationModal()" class="text-fastOrange font-bold hover:underline">Ubah</button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cart-items-list" class="flex-1 overflow-y-auto p-4 space-y-3">
+                    <!-- Items rendered here -->
+                </div>
+
+                <!-- Voucher & Payment Summary Area -->
+                <div class="p-4 bg-slate-50 border-t border-slate-200 space-y-3">
+                    
+                    <!-- Voucher Input -->
+                    <div class="flex gap-2">
+                        <input type="text" id="voucher-code-input" placeholder="Kode Promo (PURWOKERTOFAST)" class="uppercase text-xs p-2 border border-slate-300 rounded-lg flex-1 outline-none font-mono">
+                        <button onclick="applyVoucher()" class="bg-slate-800 text-white font-bold text-xs px-3 rounded-lg hover:bg-slate-700">Gunakan</button>
+                    </div>
+                    <div id="voucher-applied-tag" class="hidden text-[11px] font-bold text-emerald-600 bg-emerald-50 p-1.5 rounded border border-emerald-200 flex justify-between items-center">
+                        <span><i class="fa-solid fa-ticket mr-1"></i> Promo Terpasang!</span>
+                        <button onclick="removeVoucher()" class="text-red-500 font-bold">Hapus</button>
+                    </div>
+
+                    <!-- Payment Method Picker -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Metode Pembayaran:</label>
+                        <select id="payment-method" class="w-full text-xs font-bold p-2 border border-slate-300 rounded-lg bg-white outline-none">
+                            <option value="QRIS">QRIS / Instant All Payment</option>
+                            <option value="GoPay">GoPay Purwokerto</option>
+                            <option value="OVO">OVO</option>
+                            <option value="DANA">DANA</option>
+                            <option value="ShopeePay">ShopeePay</option>
+                            <option value="COD">Cash on Delivery (COD)</option>
+                        </select>
+                    </div>
+
+                    <!-- Price Breakdowns -->
+                    <div class="space-y-1 text-xs text-slate-600 pt-2 border-t border-slate-200">
+                        <div class="flex justify-between">
+                            <span>Subtotal Makanan</span>
+                            <span font-bold id="summary-subtotal">Rp 0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Ongkos Kirim Kilat (Purwokerto)</span>
+                            <span font-bold id="summary-shipping">Rp 5.000</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Biaya Layanan</span>
+                            <span font-bold id="summary-platform">Rp 2.000</span>
+                        </div>
+                        <div id="discount-row" class="hidden justify-between text-emerald-600 font-bold">
+                            <span>Diskon Voucher</span>
+                            <span id="summary-discount">-Rp 0</span>
+                        </div>
+                        <div class="flex justify-between text-slate-900 font-black text-sm pt-2 border-t border-slate-200">
+                            <span>Total Bayar</span>
+                            <span class="text-fastOrange text-base" id="summary-total">Rp 0</span>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <button onclick="processCheckout()" class="w-full bg-gradient-to-r from-fastOrange to-red-600 hover:from-orange-600 hover:to-red-700 text-white font-extrabold py-3 rounded-xl shadow-lg shadow-orange-500/30 flex items-center justify-center gap-2">
+                        <span>Pesan Kilat Sekarang</span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Tracker Modal Simulation -->
+    <div id="tracker-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center hidden p-4">
+        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl p-6 text-center space-y-6 relative">
+            
+            <div class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 font-extrabold text-xs px-3 py-1 rounded-full animate-pulse">
+                <i class="fa-solid fa-clock"></i> Live Status Delivery
+            </div>
+
+            <h2 class="text-2xl font-black text-slate-900">Pesanan Diterima!</h2>
+
+            <!-- Graphic Simulation Box -->
+            <div class="relative w-full h-36 bg-slate-100 rounded-2xl overflow-hidden border border-slate-200 flex items-center justify-center p-4">
+                <div class="absolute inset-0 opacity-20 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                
+                <div id="tracker-animation-icon" class="text-6xl text-fastOrange transition-all duration-700 transform">
+                    <i class="fa-solid fa-store animate-bounce"></i>
+                </div>
+            </div>
+
+            <!-- Status Text -->
+            <div>
+                <h3 id="tracker-status-title" class="font-black text-lg text-slate-800">Menghubungkan ke Restoran...</h3>
+                <p id="tracker-status-desc" class="text-xs text-slate-500 mt-1">Resto sedang mengonfirmasi pesanan Anda.</p>
+            </div>
+
+            <!-- Progress Steps Bar -->
+            <div class="grid grid-cols-4 gap-1 relative">
+                <div class="h-2 rounded-full bg-fastOrange" id="step-1"></div>
+                <div class="h-2 rounded-full bg-slate-200" id="step-2"></div>
+                <div class="h-2 rounded-full bg-slate-200" id="step-3"></div>
+                <div class="h-2 rounded-full bg-slate-200" id="step-4"></div>
+            </div>
+
+            <!-- Driver Info Card -->
+            <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 flex items-center justify-between text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-slate-800 text-white rounded-full flex items-center justify-center font-bold text-sm">
+                        <i class="fa-solid fa-helmet-safety text-fastYellow"></i>
+                    </div>
+                    <div>
+                        <p class="font-extrabold text-xs text-slate-900">Mas Slamet FastDriver</p>
+                        <p class="text-[10px] text-slate-500">Honda Beat • R 4545 AB (Purwokerto)</p>
+                    </div>
+                </div>
+                <span class="text-xs font-bold bg-emerald-100 text-emerald-700 px-2.5 py-1 rounded-full">Siap Meluncur</span>
+            </div>
+
+            <button onclick="closeTrackerModal()" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl text-xs hover:bg-slate-800">
+                Tutup & Kembali ke Beranda
+            </button>
+        </div>
+    </div>
+
+    <!-- Location Change Modal -->
+    <div id="location-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center hidden p-4">
+        <div class="bg-white w-full max-w-md rounded-2xl p-5 space-y-4 shadow-2xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-extrabold text-slate-900 text-base flex items-center gap-2">
+                    <i class="fa-solid fa-map-pin text-fastOrange"></i> Pilih Lokasi Purwokerto
+                </h3>
+                <button onclick="closeLocationModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <p class="text-xs text-slate-500">Layanan "Making Faaasssttt Food" saat ini melayani pengiriman area Purwokerto & sekitarnya:</p>
+
+            <div class="space-y-2 max-h-60 overflow-y-auto pr-1" id="location-options-list">
+                <!-- Location list buttons populated via JavaScript -->
+            </div>
+
+            <div>
+                <label class="block text-xs font-bold text-slate-700 mb-1">Detail Alamat Lengkap / Patokan:</label>
+                <input type="text" id="street-detail-input" placeholder="cth: Gang Mawar No. 12 dekat Kampus UNSOED" class="w-full text-xs p-2.5 border border-slate-300 rounded-xl focus:ring-1 focus:ring-fastOrange outline-none">
+            </div>
+
+            <button onclick="saveLocation()" class="w-full bg-fastOrange text-white font-extrabold py-2.5 rounded-xl text-xs shadow-md">
+                Simpan Lokasi Ini
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Purwokerto Sub-districts / Locations
+        const purwokertoLocations = [
+            "Kampus UNSOED, Purwokerto Utara",
+            "Rita SuperMall Area, Purwokerto Barat",
+            "Raden Patah, Purwokerto Selatan",
+            "Dukuhwaluh, Kembaran",
+            "Berkoh, Purwokerto Selatan",
+            "Karangklesem, Purwokerto Selatan",
+            "Grendeng, Purwokerto Utara",
+            "Sokaraja Area, Banyumas",
+            "Kober, Purwokerto Barat"
+        ];
+
+        // Categories Data
+        const categories = [
+            { id: 'all', name: 'Semua Menu', icon: 'fa-utensils' },
+            { id: 'mendoan', name: 'Mendoan & Camilan', icon: 'fa-cookie-bite' },
+            { id: 'soto', name: 'Soto Sokaraja & Bakso', icon: 'fa-bowl-food' },
+            { id: 'ayam', name: 'Ayam & Bebek', icon: 'fa-drumstick-bite' },
+            { id: 'kopi', name: 'Kopi & Minuman', icon: 'fa-mug-hot' },
+            { id: 'nasgor', name: 'Nasi Goreng & Bakmi', icon: 'fa-plate-wheat' },
+            { id: 'fastfood', name: 'Instant Fast Food', icon: 'fa-burger' }
+        ];
+
+        // Purwokerto Local Restaurants Dataset
+        const restaurants = [
+            {
+                id: 'resto-1',
+                name: 'Mendoan Kriuk UNSOED Grendeng',
+                category: 'mendoan',
+                rating: 4.9,
+                distance: 0.8,
+                time: '12-18 min',
+                deliveryFee: 4000,
+                isPromo: true,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 'm1', name: 'Mendoan Jumbo Sambal Kecap (5 Pcs)', price: 15000, desc: 'Tempe mendoan hangat khas Banyumas gurih rempah pilihan.', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'm2', name: 'Mendoan Crispy Pedas Gelora', price: 18000, desc: 'Mendoan super garing dengan taburan cabe rawit segar.', image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'm3', name: 'Es Teh Kampus Jumbo', price: 4000, desc: 'Segar dan manis gula asli.', image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?auto=format&fit=crop&w=300&q=80' }
+                ]
+            },
+            {
+                id: 'resto-2',
+                name: 'Soto Sangka Sokaraja Asli',
+                category: 'soto',
+                rating: 4.8,
+                distance: 3.2,
+                time: '18-24 min',
+                deliveryFee: 6000,
+                isPromo: true,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 's1', name: 'Soto Daging Sapi Bumbu Kacang', price: 24000, desc: 'Soto khas Sokaraja dengan kuah gurih dan sambal kacang legit.', image: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=300&q=80' },
+                    { id: 's2', name: 'Soto Ayam Kampung + Ketupat', price: 20000, desc: 'Ayam kampung suwir empuk dan ketupat lembut.', image: 'https://images.unsplash.com/photo-1541832676-9b763b0239ab?auto=format&fit=crop&w=300&q=80' },
+                    { id: 's3', name: 'Kerupuk Cantir Renyah (Paket 3)', price: 5000, desc: 'Pelengkap pas makan soto.', image: 'https://images.unsplash.com/photo-1599488615731-7e5c2823ff28?auto=format&fit=crop&w=300&q=80' }
+                ]
+            },
+            {
+                id: 'resto-3',
+                name: 'Ayam Goreng Sambal Ijo Raden Patah',
+                category: 'ayam',
+                rating: 4.7,
+                distance: 1.5,
+                time: '15-20 min',
+                deliveryFee: 5000,
+                isPromo: false,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 'a1', name: 'Nasi Ayam Goreng Sambal Ijo Pedas', price: 22000, desc: 'Nasi hangat, ayam goreng bumbu meresap & sambal ijo pedas nendang.', image: 'https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'a2', name: 'Bebek Bakar Madu Purwokerto', price: 32000, desc: 'Bebek lembut dioles madu murni bakar.', image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=300&q=80' }
+                ]
+            },
+            {
+                id: 'resto-4',
+                name: 'Kopi Kenangan - Rita SuperMall PWT',
+                category: 'kopi',
+                rating: 4.9,
+                distance: 2.1,
+                time: '12-16 min',
+                deliveryFee: 5000,
+                isPromo: true,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 'k1', name: 'Kopi Kenangan Mantan (Gula Aren)', price: 19000, desc: 'Espresso blend khas dengan gula aren murni.', image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'k2', name: 'Avocatto Choco Float', price: 28000, desc: 'Perpaduan alpukat gurih dan es krim cokelat.', image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?auto=format&fit=crop&w=300&q=80' }
+                ]
+            },
+            {
+                id: 'resto-5',
+                name: 'Bakso & Mie Ayam Pak Pekek Purwokerto',
+                category: 'soto',
+                rating: 4.6,
+                distance: 1.1,
+                time: '14-19 min',
+                deliveryFee: 4000,
+                isPromo: false,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 'b1', name: 'Bakso Urat Spesial Tetelan', price: 21000, desc: 'Bakso urat daging sapi asli melimpah tetelan gurih.', image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'b2', name: 'Mie Ayam Ceker Bumbu Meresap', price: 16000, desc: 'Mie kenyal dengan topping ceker empuk.', image: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?auto=format&fit=crop&w=300&q=80' }
+                ]
+            },
+            {
+                id: 'resto-6',
+                name: 'Martabak Bangka Legendaris Dukuhwaluh',
+                category: 'fastfood',
+                rating: 4.8,
+                distance: 2.7,
+                time: '20-25 min',
+                deliveryFee: 6000,
+                isPromo: true,
+                isHalal: true,
+                image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=600&q=80',
+                menu: [
+                    { id: 'mt1', name: 'Martabak Manis Keju Coklat Meleter', price: 30000, desc: 'Tebal lembut dengan mentega melimpah.', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80' },
+                    { id: 'mt2', name: 'Martabak Telur Daging Sapi 3 Telur', price: 35000, desc: 'Kulit renyah dengan isian daging gurih.', image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=300&q=80' }
+                ]
+            }
+        ];
+
+        let currentLocation = "Kampus UNSOED, Purwokerto Utara";
+        let activeCategory = 'all';
+        let activeFilters = { promo: false, rating: false, fast: false, halal: false };
+        let favorites = new Set();
+        let cart = [];
+        let appliedVoucher = null;
+        let activeRestoForModal = null;
+        let itemToCustomize = null;
+
+        window.onload = function() {
+            renderLocations();
+            renderCategories();
+            renderRestaurants();
+            updateCartUI();
+        };
+
+        function renderLocations() {
+            const container = document.getElementById('location-options-list');
+            container.innerHTML = purwokertoLocations.map(loc => `
+                <button onclick="selectLocationOption('${loc}')" class="w-full text-left text-xs p-2.5 rounded-xl border ${currentLocation === loc ? 'border-fastOrange bg-orange-50 font-bold text-fastOrange' : 'border-slate-200 hover:bg-slate-50 text-slate-700'} transition flex items-center justify-between">
+                    <span>${loc}</span>
+                    ${currentLocation === loc ? '<i class="fa-solid fa-check"></i>' : ''}
+                </button>
+            `).join('');
+        }
+
+        function renderCategories() {
+            const container = document.getElementById('category-container');
+            container.innerHTML = categories.map(cat => `
+                <button onclick="selectCategory('${cat.id}')" class="shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition ${activeCategory === cat.id ? 'bg-fastOrange text-white shadow-md shadow-orange-500/30' : 'bg-white text-slate-700 border border-slate-200 hover:border-slate-300'}">
+                    <i class="fa-solid ${cat.icon}"></i>
+                    <span>${cat.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function renderRestaurants() {
+            const grid = document.getElementById('restaurant-grid');
+            const emptyState = document.getElementById('empty-state');
+            const searchKeyword = document.getElementById('search-input').value.toLowerCase();
+
+            let filtered = restaurants.filter(r => {
+                // Category filter
+                if (activeCategory !== 'all' && r.category !== activeCategory) return false;
+
+                // Search keyword
+                if (searchKeyword && !r.name.toLowerCase().includes(searchKeyword) && !r.menu.some(m => m.name.toLowerCase().includes(searchKeyword))) {
+                    return false;
+                }
+
+                // Quick Pills Filters
+                if (activeFilters.promo && !r.isPromo) return false;
+                if (activeFilters.rating && r.rating < 4.5) return false;
+                if (activeFilters.fast && parseInt(r.time) > 20) return false;
+                if (activeFilters.halal && !r.isHalal) return false;
+
+                return true;
+            });
+
+            document.getElementById('restaurant-count').innerText = `${filtered.length} Resto`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+
+            grid.innerHTML = filtered.map(resto => {
+                const isFav = favorites.has(resto.id);
+                return `
+                <div class="bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-xl transition duration-300 flex flex-col group">
+                    <div class="relative h-40 overflow-hidden cursor-pointer" onclick="openRestoModal('${resto.id}')">
+                        <img src="${resto.image}" alt="${resto.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        
+                        ${resto.isPromo ? `<span class="absolute top-3 left-3 bg-red-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded shadow">PROMO FAST</span>` : ''}
+
+                        <button onclick="event.stopPropagation(); toggleFavorite('${resto.id}')" class="absolute top-3 right-3 w-8 h-8 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-slate-600 hover:text-red-500 transition">
+                            <i class="${isFav ? 'fa-solid fa-heart text-red-500' : 'fa-regular fa-heart'}"></i>
+                        </button>
+
+                        <div class="absolute bottom-2 left-3 right-3 flex items-center justify-between text-white text-xs font-semibold">
+                            <span><i class="fa-solid fa-clock text-amber-300 mr-1"></i>${resto.time}</span>
+                            <span>Rp ${resto.deliveryFee.toLocaleString('id-ID')} Ongkir</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-fastOrange">${resto.category}</span>
+                                <span class="bg-amber-100 text-amber-800 text-[11px] font-extrabold px-1.5 py-0.5 rounded flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-amber-500 text-[10px]"></i> ${resto.rating}
+                                </span>
+                            </div>
+                            <h3 onclick="openRestoModal('${resto.id}')" class="font-extrabold text-slate-900 text-base mt-1 cursor-pointer hover:text-fastOrange transition line-clamp-1">${resto.name}</h3>
+                            <p class="text-xs text-slate-500 mt-0.5"><i class="fa-solid fa-location-dot text-slate-400 mr-1"></i>${resto.distance} km dari lokasi Anda</p>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-600">${resto.menu.length} Menu Pilihan</span>
+                            <button onclick="openRestoModal('${resto.id}')" class="bg-slate-900 group-hover:bg-fastOrange text-white text-xs font-bold px-3 py-1.5 rounded-xl transition">
+                                Lihat Menu <i class="fa-solid fa-chevron-right text-[10px] ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        function selectCategory(catId) {
+            activeCategory = catId;
+            renderCategories();
+            renderRestaurants();
+        }
+
+        function toggleFilter(filterKey) {
+            activeFilters[filterKey] = !activeFilters[filterKey];
+            const pill = document.getElementById(`filter-${filterKey}`);
+            if (activeFilters[filterKey]) {
+                pill.classList.add('bg-fastOrange', 'text-white', 'border-fastOrange');
+                pill.classList.remove('bg-white', 'text-slate-700', 'border-slate-200');
+            } else {
+                pill.classList.remove('bg-fastOrange', 'text-white', 'border-fastOrange');
+                pill.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+            }
+            renderRestaurants();
+        }
+
+        function handleSearch() {
+            renderRestaurants();
+        }
+
+        function resetFilters() {
+            activeCategory = 'all';
+            activeFilters = { promo: false, rating: false, fast: false, halal: false };
+            document.getElementById('search-input').value = '';
+            document.querySelectorAll('.filter-pill').forEach(el => {
+                el.classList.remove('bg-fastOrange', 'text-white', 'border-fastOrange');
+                el.classList.add('bg-white', 'text-slate-700', 'border-slate-200');
+            });
+            renderCategories();
+            renderRestaurants();
+        }
+
+        function toggleFavorite(id) {
+            if (favorites.has(id)) {
+                favorites.delete(id);
+            } else {
+                favorites.add(id);
+            }
+            document.getElementById('fav-count').innerText = favorites.size;
+            document.getElementById('fav-count').classList.toggle('hidden', favorites.size === 0);
+            renderRestaurants();
+        }
+
+        function openRestoModal(restoId) {
+            const resto = restaurants.find(r => r.id === restoId);
+            if (!resto) return;
+            activeRestoForModal = resto;
+
+            document.getElementById('modal-resto-img').src = resto.image;
+            document.getElementById('modal-resto-name').innerText = resto.name;
+            document.getElementById('modal-resto-category').innerText = resto.category;
+            document.getElementById('modal-resto-rating').innerText = resto.rating;
+            document.getElementById('modal-resto-distance').innerText = `${resto.distance} km`;
+            document.getElementById('modal-resto-time').innerText = resto.time;
+
+            const menuContainer = document.getElementById('modal-menu-container');
+            menuContainer.innerHTML = resto.menu.map(item => `
+                <div class="flex items-center justify-between p-3 rounded-2xl border border-slate-100 hover:border-orange-200 transition bg-white shadow-xs">
+                    <div class="flex gap-3 items-center">
+                        <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-xl object-cover shrink-0">
+                        <div>
+                            <h4 class="font-extrabold text-slate-900 text-sm">${item.name}</h4>
+                            <p class="text-xs text-slate-500 line-clamp-1 mt-0.5">${item.desc}</p>
+                            <span class="text-xs font-black text-fastOrange mt-1 inline-block">Rp ${item.price.toLocaleString('id-ID')}</span>
+                        </div>
+                    </div>
+                    <button onclick="openCustomizeModal('${item.id}')" class="bg-orange-50 hover:bg-fastOrange text-fastOrange hover:text-white border border-orange-200 font-extrabold text-xs px-3 py-2 rounded-xl transition shrink-0">
+                        + Tambah
+                    </button>
+                </div>
+            `).join('');
+
+            updateModalSummary();
+
+            const modal = document.getElementById('resto-modal');
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+            }, 10);
+        }
+
+        function closeRestoModal() {
+            const modal = document.getElementById('resto-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+        }
+
+        function openCustomizeModal(itemId) {
+            if (!activeRestoForModal) return;
+            const item = activeRestoForModal.menu.find(m => m.id === itemId);
+            if (!item) return;
+
+            itemToCustomize = item;
+            document.getElementById('cust-item-name').innerText = item.name;
+            document.getElementById('cust-item-price').innerText = `Rp ${item.price.toLocaleString('id-ID')}`;
+            document.getElementById('cust-notes').value = '';
+
+            // Reset checkboxes
+            document.querySelectorAll('.extra-cb').forEach(cb => cb.checked = false);
+
+            document.getElementById('customize-modal').classList.remove('hidden');
+        }
+
+        function closeCustModal() {
+            document.getElementById('customize-modal').classList.add('hidden');
+        }
+
+        function selectSpicy(btn, level) {
+            document.querySelectorAll('.spicy-btn').forEach(b => {
+                b.classList.remove('bg-orange-500', 'text-white', 'border-orange-500');
+                b.classList.add('bg-slate-100', 'text-slate-700', 'border-slate-200');
+            });
+            btn.classList.remove('bg-slate-100', 'text-slate-700', 'border-slate-200');
+            btn.classList.add('bg-orange-500', 'text-white', 'border-orange-500');
+            btn.dataset.selectedLevel = level;
+        }
+
+        function confirmAddToCart() {
+            if (!itemToCustomize || !activeRestoForModal) return;
+
+            const spicyBtn = document.querySelector('.spicy-btn.bg-orange-500');
+            const spicyLevel = spicyBtn ? (spicyBtn.dataset.selectedLevel || 'Pedas Sedang') : 'Pedas Sedang';
+
+            let extraCost = 0;
+            let extrasList = [];
+            document.querySelectorAll('.extra-cb:checked').forEach(cb => {
+                extraCost += parseInt(cb.value);
+                extrasList.push(cb.dataset.name);
+            });
+
+            const notes = document.getElementById('cust-notes').value;
+
+            const cartItem = {
+                cartId: Date.now(),
+                restoId: activeRestoForModal.id,
+                restoName: activeRestoForModal.name,
+                deliveryFee: activeRestoForModal.deliveryFee,
+                itemId: itemToCustomize.id,
+                name: itemToCustomize.name,
+                basePrice: itemToCustomize.price,
+                extraCost: extraCost,
+                totalPrice: itemToCustomize.price + extraCost,
+                spicyLevel: spicyLevel,
+                extras: extrasList,
+                notes: notes,
+                qty: 1
+            };
+
+            cart.push(cartItem);
+            closeCustModal();
+            updateCartUI();
+            updateModalSummary();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cart-badge');
+            const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+            badge.innerText = totalQty;
+
+            const cartList = document.getElementById('cart-items-list');
+            if (cart.length === 0) {
+                cartList.innerHTML = `
+                    <div class="text-center py-12 text-slate-400">
+                        <i class="fa-solid fa-basket-shopping text-4xl mb-2"></i>
+                        <p class="text-xs font-bold">Keranjang Anda masih kosong</p>
+                    </div>
+                `;
+            } else {
+                cartList.innerHTML = cart.map(item => `
+                    <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h4 class="font-extrabold text-slate-900 text-xs">${item.name}</h4>
+                                <p class="text-[10px] text-slate-500">${item.restoName}</p>
+                                <span class="text-[10px] bg-orange-100 text-orange-800 font-bold px-1.5 py-0.5 rounded">${item.spicyLevel}</span>
+                                ${item.extras.length > 0 ? `<p class="text-[10px] text-slate-500 mt-1">+ ${item.extras.join(', ')}</p>` : ''}
+                            </div>
+                            <span class="font-black text-xs text-fastOrange">Rp ${(item.totalPrice * item.qty).toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-200/60">
+                            <span class="text-[10px] text-slate-400 italic">${item.notes ? `"${item.notes}"` : 'Tanpa catatan'}</span>
+                            <div class="flex items-center gap-2">
+                                <button onclick="changeQty(${item.cartId}, -1)" class="w-6 h-6 rounded-lg bg-white border border-slate-300 text-xs font-bold hover:bg-slate-100">-</button>
+                                <span class="text-xs font-black">${item.qty}</span>
+                                <button onclick="changeQty(${item.cartId}, 1)" class="w-6 h-6 rounded-lg bg-fastOrange text-white text-xs font-bold hover:bg-orange-600">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            calculateTotals();
+        }
+
+        function updateModalSummary() {
+            const summary = document.getElementById('modal-cart-summary');
+            if (!activeRestoForModal) return;
+            const restoItems = cart.filter(i => i.restoId === activeRestoForModal.id);
+            const qty = restoItems.reduce((s, i) => s + i.qty, 0);
+            const total = restoItems.reduce((s, i) => s + (i.totalPrice * i.qty), 0);
+            summary.innerText = `${qty} Item | Rp ${total.toLocaleString('id-ID')}`;
+        }
+
+        function changeQty(cartId, delta) {
+            const index = cart.findIndex(i => i.cartId === cartId);
+            if (index > -1) {
+                cart[index].qty += delta;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            updateCartUI();
+            updateModalSummary();
+        }
+
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('hidden');
+        }
+
+        function applyVoucherDirect(code) {
+            document.getElementById('voucher-code-input').value = code;
+            toggleCartDrawer();
+            applyVoucher();
+        }
+
+        function applyVoucher() {
+            const code = document.getElementById('voucher-code-input').value.trim().toUpperCase();
+            if (code === 'PURWOKERTOFAST') {
+                appliedVoucher = { code: 'PURWOKERTOFAST', discountShipping: true, discountAmount: 5000 };
+            } else if (code === 'MENDOANFREE') {
+                appliedVoucher = { code: 'MENDOANFREE', discountShipping: false, discountAmount: 10000 };
+            } else {
+                alert('Kode voucher tidak valid!');
+                return;
+            }
+
+            document.getElementById('voucher-applied-tag').classList.remove('hidden');
+            calculateTotals();
+        }
+
+        function removeVoucher() {
+            appliedVoucher = null;
+            document.getElementById('voucher-applied-tag').classList.add('hidden');
+            calculateTotals();
+        }
+
+        function calculateTotals() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.totalPrice * item.qty), 0);
+            
+            // Shipping calculation: highest resto shipping fee or flat default
+            let shipping = cart.length > 0 ? Math.max(...cart.map(i => i.deliveryFee)) : 5000;
+            let platformFee = cart.length > 0 ? 2000 : 0;
+            let discount = 0;
+
+            if (appliedVoucher) {
+                if (appliedVoucher.discountShipping) {
+                    discount += shipping;
+                } else {
+                    discount += appliedVoucher.discountAmount;
+                }
+            }
+
+            const total = Math.max(0, subtotal + shipping + platformFee - discount);
+
+            document.getElementById('summary-subtotal').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('summary-shipping').innerText = `Rp ${shipping.toLocaleString('id-ID')}`;
+            document.getElementById('summary-platform').innerText = `Rp ${platformFee.toLocaleString('id-ID')}`;
+            document.getElementById('summary-total').innerText = `Rp ${total.toLocaleString('id-ID')}`;
+
+            const discountRow = document.getElementById('discount-row');
+            if (discount > 0) {
+                discountRow.classList.remove('hidden');
+                discountRow.classList.add('flex');
+                document.getElementById('summary-discount').innerText = `-Rp ${discount.toLocaleString('id-ID')}`;
+            } else {
+                discountRow.classList.add('hidden');
+                discountRow.classList.remove('flex');
+            }
+        }
+
+        function processCheckout() {
+            if (cart.length === 0) {
+                alert('Keranjang Anda masih kosong. Silahkan pilih makanan terlebih dahulu!');
+                return;
+            }
+
+            toggleCartDrawer();
+            openTrackerModal();
+        }
+
+        function openTrackerModal() {
+            const modal = document.getElementById('tracker-modal');
+            modal.classList.remove('hidden');
+
+            // Trigger Confetti
+            confetti({
+                particleCount: 80,
+                spread: 60,
+                origin: { y: 0.6 }
+            });
+
+            startOrderSimulation();
+        }
+
+        function closeTrackerModal() {
+            document.getElementById('tracker-modal').classList.add('hidden');
+            cart = [];
+            appliedVoucher = null;
+            updateCartUI();
+        }
+
+        function startOrderSimulation() {
+            const icon = document.getElementById('tracker-animation-icon');
+            const title = document.getElementById('tracker-status-title');
+            const desc = document.getElementById('tracker-status-desc');
+
+            const step1 = document.getElementById('step-1');
+            const step2 = document.getElementById('step-2');
+            const step3 = document.getElementById('step-3');
+            const step4 = document.getElementById('step-4');
+
+            // Reset steps
+            [step2, step3, step4].forEach(s => s.className = 'h-2 rounded-full bg-slate-200');
+
+            // Stage 1: Store Confirmation
+            icon.innerHTML = '<i class="fa-solid fa-store animate-bounce"></i>';
+            title.innerText = 'Pesanan Diterima Restoran Purwokerto';
+            desc.innerText = 'Dapur sedang mempersiapkan hidangan hangat Anda.';
+
+            setTimeout(() => {
+                // Stage 2: Cooking
+                step2.className = 'h-2 rounded-full bg-fastOrange';
+                icon.innerHTML = '<i class="fa-solid fa-fire-burner animate-spin text-amber-500"></i>';
+                title.innerText = 'Makanan Sedang Dimasak...';
+                desc.innerText = 'Bumbu rempah racikan khas sedang disiapkan.';
+            }, 3000);
+
+            setTimeout(() => {
+                // Stage 3: Driver On The Way
+                step3.className = 'h-2 rounded-full bg-fastOrange';
+                icon.innerHTML = '<i class="fa-solid fa-motorcycle animate-pulse text-fastOrange text-7xl"></i>';
+                title.innerText = 'Driver Kilat Meluncur!';
+                desc.innerText = `Mas Slamet menuju ke ${currentLocation}.`;
+            }, 6000);
+
+            setTimeout(() => {
+                // Stage 4: Delivered
+                step4.className = 'h-2 rounded-full bg-emerald-500';
+                icon.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-500 text-7xl"></i>';
+                title.innerText = 'Makanan Sampai di Tempat!';
+                desc.innerText = 'Selamat menikmati santapan lezat Making Faaasssttt Food!';
+
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.5 }
+                });
+            }, 9500);
+        }
+
+        function openLocationModal() {
+            document.getElementById('location-modal').classList.remove('hidden');
+        }
+
+        function closeLocationModal() {
+            document.getElementById('location-modal').classList.add('hidden');
+        }
+
+        function selectLocationOption(loc) {
+            currentLocation = loc;
+            renderLocations();
+        }
+
+        function saveLocation() {
+            const detail = document.getElementById('street-detail-input').value;
+            const fullLoc = detail ? `${currentLocation} (${detail})` : currentLocation;
+
+            document.getElementById('selected-location-text').innerText = fullLoc;
+            document.getElementById('mobile-selected-location').innerText = fullLoc;
+            document.getElementById('cart-delivery-address').innerText = fullLoc;
+
+            closeLocationModal();
+        }
+    </script>
+</body>
+</html>
